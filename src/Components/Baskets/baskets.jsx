@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { DataContext } from "../../App";
+
 import "./baskets.css";
 
 export default function Basket({ basketName }) {
@@ -10,12 +11,12 @@ export default function Basket({ basketName }) {
   const handleDragOver = (e) => {
     e.preventDefault();
     if (e.target.className === "basketTitle") {
-      e.target.style.boxShadow = "0px -4px 3px #350332";
+      e.target.style.boxShadow = "0px -5px 4px #350332";
     }
   };
 
   function dragEndHandler(e) {
-    // e.target.style.boxShadow = 'none'
+    e.target.style.boxShadow = "none";
     e.target.style.opacity = 1;
   }
 
@@ -42,12 +43,7 @@ export default function Basket({ basketName }) {
       onDragEnd={(e) => dragEndHandler(e)}
       onDrop={(e) => handleDragDrop(e)}
     >
-      <div
-        className="basketTitle"
-        onClick={() => {
-          setOpenBasket(!openBasket);
-        }}
-      >
+      <div className="basketTitle" onClick={() => setOpenBasket(!openBasket)}>
         {basketName.toUpperCase()}
       </div>
       {openBasket && (

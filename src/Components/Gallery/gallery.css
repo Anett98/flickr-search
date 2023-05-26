@@ -1,0 +1,19 @@
+.imageContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.imageContainer h2 {
+    margin-top: 70px;
+    color: #7a2074;
+}
+  
+.image {
+    width: 100px;
+    height: 100px;
+    cursor: move;
+  }

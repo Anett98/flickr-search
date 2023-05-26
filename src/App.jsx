@@ -1,20 +1,24 @@
 import { useState, createContext } from "react";
 import Basket from "./Components/Baskets/baskets";
+import Gallary from "./Components/Gallery/gallery";
+
 import "./App.css";
 
 export const DataContext = createContext();
 
-function App() {
-  const [keywords, setKeywords] = useState("");
-  const keyWordsArray = keywords.split(" ");
-  const [data, setData] = useState([]);
+export default function App() {
+  const [keyWordsArray, setKeywordsArray] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
+  const [keywords, setKeywords] = useState("");
+  const [data, setData] = useState([]);
 
   const handleSearchPhoto = async (e) => {
     e.preventDefault();
+    const splitedKeywords = keywords.split(" ");
+    setKeywordsArray(splitedKeywords);
     const updatedSearchResults = [];
     Promise.all(
-      keyWordsArray.map((keyword) =>
+      splitedKeywords?.map((keyword) =>
         fetch(
           `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=f620c0943c6d0dd798a333e25cf497a8&tags=${keyword}&license=0&per_page=5&page=1&format=json&nojsoncallback=1`
         )
@@ -30,7 +34,7 @@ function App() {
               return {
                 id: photo.id,
                 imageTitle: photo.title,
-                keywordName: keyWordsArray[currentKeywordIndex],
+                keywordName: splitedKeywords[currentKeywordIndex],
                 imageUrl: `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
               };
             });
@@ -39,15 +43,6 @@ function App() {
         });
         setData(updatedSearchResults);
       });
-  };
-
-  const handleDragStart = (e, draggedImage) => {
-    e.target.style.opacity = 0.5;
-    setCurrentImage(draggedImage);
-  };
-
-  const handleDragEnd = (e) => {
-    e.target.style.opacity = 1;
   };
 
   return (
@@ -60,35 +55,19 @@ function App() {
             className="searchInput"
             type="text"
             value={keywords}
-            onChange={(e) => setKeywords(e.target.value)}
+            onChange={(e) => {
+              setKeywords(e.target.value);
+            }}
           />
           <button disabled={keywords.length === 0}>Search</button>
         </div>
       </form>
-      <DataContext.Provider value={{ data, currentImage, setData }}>
-        <div className="imageContainer">
-          {data.map((image) => {
-            return (
-              <img
-                key={image.id}
-                onDragStart={(e) => handleDragStart(e, image)}
-                onDragEnd={(e) => handleDragEnd(e)}
-                draggable={true}
-                className="image"
-                src={image.imageUrl}
-                alt={image.imageTitle}
-              />
-            );
-          })}
-        </div>
+      <DataContext.Provider value={{ data, setData, currentImage, setCurrentImage }}>
+        <Gallary />
         <div className="basketContainer">
-          {keyWordsArray.map((basket) => (
-            <Basket basketName={basket} key={basket} />
-          ))}
+          {keyWordsArray?.length && keyWordsArray?.map((basket) => <Basket basketName={basket} key={basket} />)}
         </div>
       </DataContext.Provider>
     </div>
   );
 }
-
-export default App;
