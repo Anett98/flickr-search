@@ -1,0 +1,1 @@
+// export const URL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=f620c0943c6d0dd798a333e25cf497a8&tags=${tag}&per_page=5&page=1&format=json&nojsoncallback=1`

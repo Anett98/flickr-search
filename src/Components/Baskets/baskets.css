@@ -1,0 +1,26 @@
+.basket {
+    width: 500px;
+    /* min-height: 300px; */
+    display: flex;
+    flex-direction: column;
+}
+
+.basketTitle {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: rgb(225, 167, 236);
+    cursor: pointer;
+}
+
+.sortedImagesContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sortedImages {
+    width: 100px;
+    height: 100px;
+}
