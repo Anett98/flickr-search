@@ -8,7 +8,7 @@ export default function Basket({ basketName }) {
   const { currentImage, data, setData } = useContext(DataContext);
   const [sortedImages, setSortedImages] = useState([]);
 
-  const handleDragOver = (e) => {
+  const dragOverHandler = (e) => {
     e.preventDefault();
     if (e.target.className === "basketTitle") {
       e.target.style.boxShadow = "0px -5px 4px #350332";
@@ -20,7 +20,7 @@ export default function Basket({ basketName }) {
     e.target.style.opacity = 1;
   }
 
-  const handleDragDrop = (e) => {
+  const dragDropHandler = (e) => {
     e.preventDefault();
     e.target.style.boxShadow = "none";
     if (currentImage?.keywordName === basketName) {
@@ -29,7 +29,7 @@ export default function Basket({ basketName }) {
     }
   };
 
-  const handleDragLeave = (e) => {
+  const dragLeaveHandler = (e) => {
     e.preventDefault();
     e.target.style.boxShadow = "none";
   };
@@ -38,10 +38,10 @@ export default function Basket({ basketName }) {
     <div
       className="basket"
       key={basketName}
-      onDragOver={(e) => handleDragOver(e, basketName)}
-      onDragLeave={(e) => handleDragLeave(e)}
+      onDragOver={(e) => dragOverHandler(e, basketName)}
+      onDragLeave={(e) => dragLeaveHandler(e)}
       onDragEnd={(e) => dragEndHandler(e)}
-      onDrop={(e) => handleDragDrop(e)}
+      onDrop={(e) => dragDropHandler(e)}
     >
       <div className="basketTitle" onClick={() => setOpenBasket(!openBasket)}>
         {basketName.toUpperCase()}

@@ -1,6 +1,7 @@
 import { useState, createContext } from "react";
 import Basket from "./Components/Baskets/baskets";
 import Gallary from "./Components/Gallery/gallery";
+import { validateInputValue } from "./customValidation/customValidation";
 
 import "./App.css";
 
@@ -9,13 +10,17 @@ export const DataContext = createContext();
 export default function App() {
   const [keyWordsArray, setKeywordsArray] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
+  const [messageTrigger, setMessageTrigger] = useState(false)
   const [keywords, setKeywords] = useState("");
   const [data, setData] = useState([]);
 
   const handleSearchPhoto = async (e) => {
     e.preventDefault();
+    const isValidated = validateInputValue(keywords)
+    if (isValidated) {
+      setMessageTrigger(false)
     const splitedKeywords = keywords.trim().split(" ");
-    setKeywordsArray(splitedKeywords.filter((word,index) => splitedKeywords.indexOf(word) === index));
+    setKeywordsArray(splitedKeywords);
     const updatedSearchResults = [];
     Promise.all(
       splitedKeywords?.map((keyword) =>
@@ -41,6 +46,9 @@ export default function App() {
         });
         setData(updatedSearchResults);
       });
+    } else {
+      setMessageTrigger(true)
+    }
   };
 
   return (
@@ -59,6 +67,7 @@ export default function App() {
           />
           <button disabled={keywords.length === 0}>Search</button>
         </div>
+        {messageTrigger ? <div className="searchWarning">Incorrect search value. Please ensure there are no extra spaces and the value does not contain repeated words.</div> : null}
       </form>
       <DataContext.Provider value={{ data, setData, currentImage, setCurrentImage }}>
         <Gallary />

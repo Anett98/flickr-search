@@ -6,12 +6,12 @@ import "./gallery.css";
 export default function Gallary() {
   const { setCurrentImage, data } = useContext(DataContext);
 
-  const handleDragStart = (e, draggedImage) => {
+  const dragStartHandler = (e, draggedImage) => {
     e.target.style.opacity = 0.5;
     setCurrentImage(draggedImage);
   };
 
-  const handleDragEnd = (e) => {
+  const dragEndHandler = (e) => {
     e.target.style.opacity = 1;
   };
 
@@ -22,8 +22,8 @@ export default function Gallary() {
           return (
             <img
               key={image.id}
-              onDragStart={(e) => handleDragStart(e, image)}
-              onDragEnd={(e) => handleDragEnd(e)}
+              onDragStart={(e) => dragStartHandler(e, image)}
+              onDragEnd={(e) => dragEndHandler(e)}
               draggable={true}
               className="image"
               src={image.imageUrl}
