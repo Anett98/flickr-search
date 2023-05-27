@@ -8,7 +8,7 @@ export default function Basket({ basketName }) {
   const { currentImage, data, setData } = useContext(DataContext);
   const [sortedImages, setSortedImages] = useState([]);
 
-  const dragOverHandler = (e) => {
+  const dragEnterHandler = (e) => {
     e.preventDefault();
     if (e.target.className === "basketTitle") {
       e.target.style.boxShadow = "0px -5px 4px #350332";
@@ -38,7 +38,8 @@ export default function Basket({ basketName }) {
     <div
       className="basket"
       key={basketName}
-      onDragOver={(e) => dragOverHandler(e, basketName)}
+      onDragEnter={(e) => dragEnterHandler(e, basketName)}
+      onDragOver={(e) => e.preventDefault()}
       onDragLeave={(e) => dragLeaveHandler(e)}
       onDragEnd={(e) => dragEndHandler(e)}
       onDrop={(e) => dragDropHandler(e)}
