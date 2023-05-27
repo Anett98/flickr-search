@@ -14,6 +14,7 @@
 }
 
 .sortedImagesContainer {
+    justify-content: center;
     margin-top: 10px;
     display: flex;
     flex-direction: row;
